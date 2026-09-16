@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pronos Of Champions - Saison 2026-2027</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    header {
+      width: 100%;
+      max-width: 650px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      background: #1e293b;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border: 1px solid #334155;
+    }
+    header h1 {
+      color: #38bdf8;
+      font-size: 1.5rem;
+    }
+    .lang-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lang-selector {
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, background-color 0.2s;
+      
+      /* Suppression de la flèche native */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      text-align-last: center;
+      padding-right: 12px;
+    }
+    .lang-selector:hover {
+      border-color: #38bdf8;
+      background-color: #1e293b;
+    }
+    .container {
+      width: 100%;
+      max-width: 650px;
+    }
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border: 1px solid #334155;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .card h2 {
+      font-size: 1.2rem;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+    .form-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: #38bdf8;
+    }
+    input::placeholder {
+      color: #64748b;
+    }
+    .btn {
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background-color: #0369a1;
+    }
+    .btn-reset {
+      background-color: #475569;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+    .btn-reset:hover {
+      background-color: #334155;
+    }
+    .match-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    .match-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #38bdf8;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .match-datetime {
+      color: #38bdf8;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    .competition-badge {
+      background: #0284c7;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+    .teams-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .team-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 40%;
+      text-align: center;
+    }
+    .team-name {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #f8fafc;
+      margin-bottom: 8px;
+    }
+    .team-logo-container {
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .team-logo {
+      max-width: 55px;
+      max-height: 55px;
+      object-fit: contain;
+    }
+    .lask-logo-svg, .sabah-logo-svg {
+      width: 50px;
+      height: 55px;
+      object-fit: contain;
+    }
+    .vs {
+      color: #64748b;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    .match-middle-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .inputs-score {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .input-score {
+      width: 55px;
+      height: 45px;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-radius: 6px;
+      border: 2px solid #38bdf8;
+      background: #1e293b;
+      color: #fff;
+      outline: none;
+    }
+    .btn-delete {
+      position: absolute;
+      right: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ef4444;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .btn-delete:hover {
+      background-color: rgba(239, 68, 68, 0.15);
+    }
+    .btn-delete svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+    .prono-result {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #4ade80;
+      font-weight: bold;
+    }
+    .btn-save {
+      width: 100%;
+      background-color: #16a34a;
+    }
+    .btn-save:hover {
+      background-color: #15803d;
+    }
+    .empty-msg {
+      text-align: center;
+      color: #64748b;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏆 Pronos Of Champions</h1>
+    <div class="lang-container">
+      <select id="langSelect" class="lang-selector" onchange="changerLangue()">
+        <option value="fr">Français</option>
+        <option value="gb">English</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Português</option>
+      </select>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- Formulaire d'ajout de match -->
+    <div class="card">
+      <h2 id="txtAddTitle">+ Ajouter un match</h2>
+      <div class="form-group">
+        <input type="text" id="homeTeamInput" placeholder="Équipe Domicile">
+        <input type="text" id="awayTeamInput" placeholder="Équipe Extérieur">
+        <button class="btn" id="btnAddMatch" onclick="ajouterMatch()">Créer le match</button>
+      </div>
+    </div>
+
+    <!-- Liste des pronostics -->
+    <div class="card">
+      <div class="card-header">
+        <h2 id="txtMyPronos">Mes Pronostics (Saison 2026-2027)</h2>
+        <button class="btn btn-reset" id="btnReset" onclick="reinitialiserScores()">Réinitialiser les scores</button>
+      </div>
+      <div id="listeMatchs"></div>
+    </div>
+
+  </div>
+
+  <script>
+    const traductions = {
+      fr: {
+        addTitle: "+ Ajouter un match",
+        phHome: "Équipe Domicile",
+        phAway: "Équipe Extérieur",
+        btnCreate: "Créer le match",
+        myPronos: "Mes Pronostics (Saison 2026-2027)",
+        btnReset: "Réinitialiser les scores",
+        btnValidate: "Valider mon pronostic",
+        emptyMsg: "Aucun match programmé.",
+        homeWin: "Victoire Domicile",
+        awayWin: "Victoire Extérieur",
+        draw: "Match Nul",
+        customMatch: "Match Personnalisé",
+        confReset: "Réinitialiser tous les scores de pronostics ?",
+        confDelete: "Voulez-vous supprimer ce match personnalisé ?",
+        alertTeams: "Veuillez remplir les deux équipes.",
+        alertScores: "Entre un score valide pour les deux équipes."
+      },
+      gb: {
+        addTitle: "+ Add a match",
+        phHome: "Home Team",
+        phAway: "Away Team",
+        btnCreate: "Create match",
+        myPronos: "My Predictions (2026-2027 Season)",
+        btnReset: "Reset scores",
+        btnValidate: "Validate my prediction",
+        emptyMsg: "No matches scheduled.",
+        homeWin: "Home Win",
+        awayWin: "Away Win",
+        draw: "Draw",
+        customMatch: "Custom Match",
+        confReset: "Reset all prediction scores?",
+        confDelete: "Do you want to delete this custom match?",
+        alertTeams: "Please fill in both teams.",
+        alertScores: "Enter a valid score for both teams."
+      },
+      es: {
+        addTitle: "+ Añadir un partido",
+        phHome: "Equipo Local",
+        phAway: "Equipo Visitante",
+        btnCreate: "Crear partido",
+        myPronos: "Mis Pronósticos (Temporada 2026-2027)",
+        btnReset: "Reiniciar marcadores",
+        btnValidate: "Validar mi pronóstico",
+        emptyMsg: "No hay partidos programados.",
+        homeWin: "Victoria Local",
+        awayWin: "Victoria Visitante",
+        draw: "Empate",
+        customMatch: "Partido Personalizado",
+        confReset: "¿Reiniciar todos los pronósticos?",
+        confDelete: "¿Deseas eliminar este partido personalizado?",
+        alertTeams: "Por favor, rellena ambos equipos.",
+        alertScores: "Introduce un marcador válido para ambos equipos."
+      },
+      de: {
+        addTitle: "+ Spiel hinzufügen",
+        phHome: "Heimteam",
+        phAway: "Auswärtsteam",
+        btnCreate: "Spiel erstellen",
+        myPronos: "Meine Tipps (Saison 2026-2027)",
+        btnReset: "Ergebnisse zurücksetzen",
+        btnValidate: "Meinen Tipp abgeben",
+        emptyMsg: "Keine Spiele geplant.",
+        homeWin: "Heimsieg",
+        awayWin: "Auswärtssieg",
+        draw: "Unentschieden",
+        customMatch: "Benutzerdefiniertes Spiel",
+        confReset: "Alle Tipp-Ergebnisse zurücksetzen?",
+        confDelete: "Möchten Sie dieses benutzerdefinierte Spiel löschen?",
+        alertTeams: "Bitte füllen Sie beide Teams aus.",
+        alertScores: "Geben Sie für beide Teams ein gültiges Ergebnis ein."
+      },
+      pt: {
+        addTitle: "+ Adicionar um jogo",
+        phHome: "Equipa da Casa",
+        phAway: "Equipa Visitante",
+        btnCreate: "Criar jogo",
+        myPronos: "Os Meus Prognósticos (Época 2026-2027)",
+        btnReset: "Repor resultados",
+        btnValidate: "Validar meu prognóstico",
+        emptyMsg: "Nenhum jogo programado.",
+        homeWin: "Vitória da Casa",
+        awayWin: "Vitória Fora",
+        draw: "Empate",
+        customMatch: "Jogo Personalizado",
+        confReset: "Repor todos os resultados de prognósticos?",
+        confDelete: "Deseja eliminar este jogo personalizado?",
+        alertTeams: "Por favor, preencha ambas as equipas.",
+        alertScores: "Insira um resultado válido para ambas as equipas."
+      }
+    };
+
+    let langueActuelle = localStorage.getItem('foot_pronos_lang') || 'fr';
+    document.getElementById('langSelect').value = langueActuelle;
+
+    function changerLangue() {
+      langueActuelle = document.getElementById('langSelect').value;
+      localStorage.setItem('foot_pronos_lang', langueActuelle);
+      mettreAJourTextesStatiques();
+      afficherMatchs();
+    }
+
+    function mettreAJourTextesStatiques() {
+      const t = traductions[langueActuelle];
+      document.getElementById('txtAddTitle').innerText = t.addTitle;
+      document.getElementById('homeTeamInput').placeholder = t.phHome;
+      document.getElementById('awayTeamInput').placeholder = t.phAway;
+      document.getElementById('btnAddMatch').innerText = t.btnCreate;
+      document.getElementById('txtMyPronos').innerText = t.myPronos;
+      document.getElementById('btnReset').innerText = t.btnReset;
+    }
+
+    const laskSvgHtml = `
+      <svg class="lask-logo-svg" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10,10 H190 V150 C190,200 100,230 100,230 C100,230 10,200 10,150 Z" fill="none" stroke="#ffffff" stroke-width="12"/>
+        <text x="100" y="70" font-family="Arial, sans-serif" font-weight="bold" font-size="46" text-anchor="middle" fill="#ffffff">LASK</text>
+        <rect x="35" y="95" width="22" height="95" fill="#000000"/>
+        <rect x="68" y="95" width="22" height="95" fill="#000000"/>
+        <rect x="110" y="95" width="22" height="95" fill="#000000"/>
+        <rect x="143" y="95" width="22" height="95" fill="#000000"/>
+      </svg>
+    `;
+
+    const sabahSvgHtml = `
+      <svg class="sabah-logo-svg" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10,10 H190 V150 C190,200 100,230 100,230 C100,230 10,200 10,150 Z" fill="#1e293b" stroke="#e64980" stroke-width="10"/>
+        <path d="M10,10 H190 V85 H10 Z" fill="#e64980"/>
+        <path d="M100,10 L40,85 H60 L100,35 L140,85 H160 Z" fill="#1e293b"/>
+        <rect x="10" y="85" width="180" height="65" fill="#1e293b" stroke="#e64980" stroke-width="6"/>
+        <text x="100" y="132" font-family="Arial, sans-serif" font-weight="bold" font-size="44" text-anchor="middle" fill="#e64980" letter-spacing="2">SABAH</text>
+        <path d="M10,150 H190 V200 C190,200 100,230 100,230 C100,230 10,200 10,150 Z" fill="#1e293b"/>
+        <circle cx="72" cy="180" r="14" fill="none" stroke="#e64980" stroke-width="5"/>
+        <circle cx="128" cy="180" r="14" fill="none" stroke="#e64980" stroke-width="5"/>
+        <polygon points="100,195 95,205 105,205" fill="#e64980"/>
+        <text x="100" y="222" font-family="Arial, sans-serif" font-weight="bold" font-size="14" text-anchor="middle" fill="#e64980">2017</text>
+      </svg>
+    `;
+
+    const iconeCorbeilleHtml = `
+      <svg viewBox="0 0 24 24">
+        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+      </svg>
+    `;
+
+    const matchsParDefaut = [
+      { id: 5001, dateHeure: "17/09/2026 - 21:00", dom: "Arsenal", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/4us2nCgl6kgZc0t3hpW75Q_500x500.png", ext: "Lille", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/D2AQe8qoyPIP4K8MzLvwuA_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5002, dateHeure: "17/09/2026 - 21:00", dom: "Galatasaray", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/TWjoccvTU4JXZJZ3aW3cVg_500x500.png", ext: "Barcelone", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/paYnEE8hcrP96neHRNofhQ_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5003, dateHeure: "18/09/2026 - 21:00", dom: "Manchester City", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/z44l-a0W1v5FmgPnemV6Xw_500x500.png", ext: "PSG", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/mcpMspef1hwHwi9qrfp4YQ_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5004, dateHeure: "18/09/2026 - 18:45", dom: "AS Rome", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/BQdP4jUBFJfG7U_JBsFIMg_500x500.png", ext: "Real Madrid", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/wHU2LUw4ApkPyemQp1-XFA_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5005, dateHeure: "19/09/2026 - 21:00", dom: "LASK", logoType: "custom-lask", ext: "Liverpool", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/nGfV05dipbAc7zzojivKew_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5006, dateHeure: "19/09/2026 - 18:45", dom: "Dortmund", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/FZnTSH2rbHFos4BnlWAItw_500x500.png", ext: "Sabah FC", logoTypeExt: "custom-sabah", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5007, dateHeure: "20/09/2026 - 21:00", dom: "PSG", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/mcpMspef1hwHwi9qrfp4YQ_500x500.png", ext: "Barcelone", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/paYnEE8hcrP96neHRNofhQ_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5008, dateHeure: "20/09/2026 - 21:00", dom: "Bayern Munich", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/-_cmntP5q_pHL7g5LfkRiw_500x500.png", ext: "Arsenal", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/4us2nCgl6kgZc0t3hpW75Q_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" },
+      { id: 5009, dateHeure: "21/09/2026 - 21:00", dom: "Real Madrid", logoDom: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/wHU2LUw4ApkPyemQp1-XFA_500x500.png", ext: "RB Leipzig", logoExt: "https://ssl.gstatic.com/onebox/media/sports/logos/optimized/R7-Lqc_SDxd97uWgoeUQ-g_500x500.png", competition: "Ligue des Champions", scoreDom: "", scoreExt: "" }
+    ];
+
+    let matchs = JSON.parse(localStorage.getItem('foot_pronos_2026_v28')) || matchsParDefaut;
+
+    function sauvegarderLocal() {
+      localStorage.setItem('foot_pronos_2026_v28', JSON.stringify(matchs));
+    }
+
+    function reinitialiserScores() {
+      const t = traductions[langueActuelle];
+      if (confirm(t.confReset)) {
+        matchs = matchs.map(m => ({ ...m, scoreDom: "", scoreExt: "" }));
+        sauvegarderLocal();
+        afficherMatchs();
+      }
+    }
+
+    function gererErreurLogo(imgElement, nomEquipe) {
+      const parent = imgElement.parentElement;
+      const initiales = nomEquipe.substring(0, 3).toUpperCase();
+      parent.innerHTML = `<div style="width:40px; height:40px; background:#334155; color:#38bdf8; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:bold; font-size:0.8rem;">${initiales}</div>`;
+    }
+
+    function ajouterMatch() {
+      const t = traductions[langueActuelle];
+      const domInput = document.getElementById('homeTeamInput');
+      const extInput = document.getElementById('awayTeamInput');
+
+      const domName = domInput.value.trim();
+      const extName = extInput.value.trim();
+
+      if (!domName || !extName) {
+        alert(t.alertTeams);
+        return;
+      }
+
+      const maintenant = new Date();
+      const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const dateFormatee = maintenant.toLocaleDateString('fr-FR', optionsDate).replace(',', ' -');
+
+      const nouveauMatch = {
+        id: Date.now(),
+        dateHeure: dateFormatee,
+        dom: domName,
+        logoDom: `https://logo.clearbit.com/${domName.toLowerCase().replace(/\s+/g, '')}.com`,
+        ext: extName,
+        logoExt: `https://logo.clearbit.com/${extName.toLowerCase().replace(/\s+/g, '')}.com`,
+        competition: "Match Personnalisé",
+        scoreDom: "",
+        scoreExt: ""
+      };
+
+      matchs.push(nouveauMatch);
+      sauvegarderLocal();
+
+      domInput.value = "";
+      extInput.value = "";
+
+      afficherMatchs();
+    }
+
+    function supprimerMatch(id) {
+      const t = traductions[langueActuelle];
+      if (confirm(t.confDelete)) {
+        matchs = matchs.filter(m => m.id !== id);
+        sauvegarderLocal();
+        afficherMatchs();
+      }
+    }
+
+    function enregistrerScore(id) {
+      const t = traductions[langueActuelle];
+      const valDom = document.getElementById(`score-dom-${id}`).value;
+      const valExt = document.getElementById(`score-ext-${id}`).value;
+
+      if (valDom === "" || valExt === "") {
+        alert(t.alertScores);
+        return;
+      }
+
+      const match = matchs.find(m => m.id === id);
+      if (match) {
+        match.scoreDom = valDom;
+        match.scoreExt = valExt;
+        sauvegarderLocal();
+        afficherMatchs();
+      }
+    }
+
+    function obtenirTendance(sDom, sExt) {
+      const t = traductions[langueActuelle];
+      const d = parseInt(sDom);
+      const e = parseInt(sExt);
+      if (d > e) return t.homeWin;
+      if (e > d) return t.awayWin;
+      return t.draw;
+    }
+
+    function afficherMatchs() {
+      const t = traductions[langueActuelle];
+      const container = document.getElementById('listeMatchs');
+      container.innerHTML = '';
+
+      if (matchs.length === 0) {
+        container.innerHTML = `<p class="empty-msg">${t.emptyMsg}</p>`;
+        return;
+      }
+
+      matchs.forEach(m => {
+        const item = document.createElement('div');
+        item.className = 'match-card';
+
+        const estValide = m.scoreDom !== "" && m.scoreExt !== "";
+        const tendance = estValide ? obtenirTendance(m.scoreDom, m.scoreExt) : "";
+        const estPersonnalise = m.competition === "Match Personnalisé";
+        const nomCompetition = estPersonnalise ? t.customMatch : m.competition;
+
+        let htmlLogoDom = '';
+        if (m.logoType === 'custom-lask') {
+          htmlLogoDom = laskSvgHtml;
+        } else {
+          htmlLogoDom = `<img class="team-logo" src="${m.logoDom}" alt="Logo ${m.dom}" onerror="gererErreurLogo(this, '${m.dom}')">`;
+        }
+
+        let htmlLogoExt = '';
+        if (m.logoTypeExt === 'custom-sabah') {
+          htmlLogoExt = sabahSvgHtml;
+        } else {
+          htmlLogoExt = `<img class="team-logo" src="${m.logoExt}" alt="Logo ${m.ext}" onerror="gererErreurLogo(this, '${m.ext}')">`;
+        }
+
+        item.innerHTML = `
+          <div class="match-meta">
+            <span class="match-datetime">${m.dateHeure || ""}</span>
+            <span class="competition-badge">${nomCompetition}</span>
+          </div>
+
+          <div class="teams-header">
+            <div class="team-box">
+              <span class="team-name">${m.dom}</span>
+              <div class="team-logo-container">
+                ${htmlLogoDom}
+              </div>
+            </div>
+
+            <span class="vs">VS</span>
+
+            <div class="team-box">
+              <span class="team-name">${m.ext}</span>
+              <div class="team-logo-container">
+                ${htmlLogoExt}
+              </div>
+            </div>
+          </div>
+
+          <div class="match-middle-row">
+            <div class="inputs-score">
+              <input type="number" min="0" max="20" class="input-score" id="score-dom-${m.id}" value="${m.scoreDom}" placeholder="-">
+              <span style="font-weight: bold; font-size: 1.2rem;">-</span>
+              <input type="number" min="0" max="20" class="input-score" id="score-ext-${m.id}" value="${m.scoreExt}" placeholder="-">
+            </div>
+            ${estPersonnalise ? `
+              <button class="btn-delete" onclick="supprimerMatch(${m.id})" title="Supprimer">
+                ${iconeCorbeilleHtml}
+              </button>
+            ` : ''}
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-save" onclick="enregistrerScore(${m.id})">${t.btnValidate}</button>
+          </div>
+
+          ${estValide ? `<div class="prono-result">${tendance}</div>` : ''}
+        `;
+
+        container.appendChild(item);
+      });
+    }
+
+    mettreAJourTextesStatiques();
+    afficherMatchs();
+  </script>
+
+</body>
+</html>
